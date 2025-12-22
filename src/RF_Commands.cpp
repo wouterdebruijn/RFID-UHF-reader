@@ -12,7 +12,7 @@ bool RFC_Class::waitAckDone()
         if (millis() - Millis > 100)
             return false;
     }
-    uint32_t count = _serial->available(); //判断字符是否50us内无新发送
+    uint32_t count = _serial->available(); // 判断字符是否50us内无新发送
     while (count)
     {
         delayMicroseconds(50);
@@ -117,7 +117,7 @@ bool RFC_Class::encode(char c)
                 if (ver == rxbuf[len + 5])
                 {
                     // Serial.printf("ver Success\n");
-                    //解析
+                    // 解析
                     switch (rxbuf[Command])
                     {
                     case 0x03:
@@ -851,7 +851,7 @@ bool RFC_Class::SetComIO(uint8_t p1, uint8_t p2, uint8_t p3)
 
 Inventory_t RFC_Class::GetLabelOnce()
 {
-    
+
     SendFrame(BuildFrame(0X00, 0X22));
     if (!waitAckDone())
     {
@@ -864,6 +864,21 @@ Inventory_t RFC_Class::GetLabelOnce()
             break;
     }
     return inventory.GetLabel();
+}
+
+void RFC_Class::SetGetLabelOnce()
+{
+    SendFrame(BuildFrame(0X00, 0X22));
+    if (!waitAckDone())
+    {
+        Serial.println("Error : No Data.");
+    }
+}
+
+void RFC_Class::SetInventoryClear()
+{
+    memset(rxbuf, '\0', sizeof(rxbuf));
+    inventory.commit(0X00, 0X22, &rxbuf[Parameter]);
 }
 
 bool RFC_Class::SetGetLabelStart(uint16_t CNT)

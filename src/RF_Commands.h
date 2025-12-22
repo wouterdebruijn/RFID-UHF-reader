@@ -454,7 +454,7 @@ private:
 
 public:
     RFC_Class(HardwareSerial *Serial) { _serial = Serial; };
-    ~RFC_Class(){};
+    ~RFC_Class() {};
 
     void begin();
     bool encode(char c);
@@ -487,6 +487,9 @@ public:
     DemodulatorParameter_t GetDemodulatorParameterFrame();
     BlockingRFInput_t GetBlockingRFInput();
     RSSIRFInput_t GetRSSORFInput();
+
+    void SetGetLabelOnce();
+    void SetInventoryClear();
 
     bool SetGetLabelStart(uint16_t CNT);
     bool SetGetLabelStop();
