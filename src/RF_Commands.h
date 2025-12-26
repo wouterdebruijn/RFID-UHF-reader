@@ -491,7 +491,7 @@ public:
     void SetGetLabelOnce();
     void SetInventoryClear();
 
-    bool SetGetLabelStart(uint16_t CNT);
+    void SetGetLabelStart(uint16_t CNT);
     bool SetGetLabelStop();
     bool SetComBaudrate(uint16_t baudrate);
     bool SetComSleep();
@@ -501,7 +501,7 @@ public:
     bool SetComTransmitContinuousCarrier(bool enable);
     bool SetComIO(uint8_t p1, uint8_t p2, uint8_t p3);
 
-    bool SetPaPowerFrame(uint8_t pow);
+    bool SetPaPowerFrame(uint16_t db);
     bool SetQueryFrame(uint16_t para);
     bool SetRegionFrame(uint8_t reg);
     bool SetRfChannelFrame(uint8_t ch);

@@ -241,40 +241,13 @@ uint16_t RFC_Class::GetPaPowerFrame()
     return power.PaPower();
 }
 
-bool RFC_Class::SetPaPowerFrame(uint8_t pow)
+bool RFC_Class::SetPaPowerFrame(uint16_t db)
 {
     uint8_t data[2];
-    switch (pow)
-    {
-    case 0:
-        data[0] = 0x07;
-        data[1] = 0xD0;
-        break;
-    case 1:
-        data[0] = 0x07;
-        data[1] = 0x3A;
-        break;
-    case 2:
-        data[0] = 0x06;
-        data[1] = 0xA4;
-        break;
-    case 3:
-        data[0] = 0x06;
-        data[1] = 0x0E;
-        break;
-    case 4:
-        data[0] = 0x05;
-        data[1] = 0x78;
-        break;
-    case 5:
-        data[0] = 0x04;
-        data[1] = 0xE2;
-        break;
-    default:
-        data[0] = 0x07;
-        data[1] = 0xD0;
-        break;
-    }
+
+    data[0] = db >> 8;
+    data[1] = db & 0xff;
+
     SendFrame(BuildFrame(0X00, 0XB6, 2, data));
     if (!waitAckDone())
     {
@@ -881,7 +854,7 @@ void RFC_Class::SetInventoryClear()
     inventory.commit(0X00, 0X22, &rxbuf[Parameter]);
 }
 
-bool RFC_Class::SetGetLabelStart(uint16_t CNT)
+void RFC_Class::SetGetLabelStart(uint16_t CNT)
 {
     uint8_t data[3];
     data[0] = 0x22;
@@ -892,13 +865,6 @@ bool RFC_Class::SetGetLabelStart(uint16_t CNT)
     {
         Serial.println("Error : No Data.");
     }
-    uint32_t Millis = millis();
-    while (!inventory.isUpdated())
-    {
-        if (millis() - Millis > 100)
-            break;
-    }
-    return inventory.isValid();
 }
 
 bool RFC_Class::SetGetLabelStop()
